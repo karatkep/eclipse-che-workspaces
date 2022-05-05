@@ -1,7 +1,6 @@
 schemaVersion: 2.1.0
 metadata:
   name: quanthub-dev
-  namespace: piotr-karatkevich-che-cbm3d4
 projects:
   - name: compute-production-data-and-metadata
     git:
