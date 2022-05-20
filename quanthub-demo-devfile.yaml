@@ -6,6 +6,8 @@ projects:
     git:
       remotes:
         origin: 'https://QuanthubEnvironment@dev.azure.com/QuanthubEnvironment/QuanthubDev/_git/Py_ProcessSubmission-p746hrwh8p8ganpj'
+      checkoutFrom:
+        revision: main
 components:
   - attributes:
       app.kubernetes.io/name: tools
