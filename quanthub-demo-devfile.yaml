@@ -60,7 +60,7 @@ commands:
       workingDir: '${PROJECT_SOURCE}'
     id: install-dependencies
   - exec:
-      commandLine: '. .venv/bin/activate && export DEBUG_MODE=False && python3 run.py
+      commandLine: '. .venv/bin/activate && export DEBUG_MODE=False && python3 run.py'
       component: tools
       group:
         kind: run
