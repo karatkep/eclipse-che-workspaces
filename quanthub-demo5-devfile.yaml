@@ -1,0 +1,74 @@
+schemaVersion: 2.1.0
+metadata:
+  name: quanthub-demo5
+projects:
+  - git:
+      checkoutFrom:
+        revision: main
+      remotes:
+        origin: 'https://QuanthubEnvironment@dev.azure.com/QuanthubEnvironment/QuanthubDev/_git/Py_ProcessSubmission-p746hrwh8p8ganpj'
+    name: process-submission
+components:
+  - attributes:
+      app.kubernetes.io/name: tools
+      che-theia.eclipse.org/vscode-extensions:
+        - 'https://github.com/microsoft/vscode-python/releases/download/2020.7.94776/ms-python-release.vsix'
+    container:
+      args:
+        - sh
+        - '-c'
+        - '${PLUGIN_REMOTE_ENDPOINT_EXECUTABLE}'
+      env:
+        - name: PLUGIN_REMOTE_ENDPOINT_EXECUTABLE
+          value: /remote-endpoint/plugin-remote-endpoint
+        - name: THEIA_PLUGINS
+          value: 'local-dir:///plugins/sidecars/tools'
+        - name: CHE_DASHBOARD_URL
+          value: 'https://che.quanthubchedev.com'
+        - name: CHE_PLUGIN_REGISTRY_URL
+          value: 'https://che.quanthubchedev.com/plugin-registry/v3'
+        - name: CHE_PLUGIN_REGISTRY_INTERNAL_URL
+          value: 'http://plugin-registry.eclipse-che.svc:8080/v3'
+      image: 'quay.io/devfile/universal-developer-image:ubi8-0e189d9'
+      memoryLimit: 512Mi
+      mountSources: true
+      sourceMapping: /projects
+      volumeMounts:
+        - name: remote-endpoint
+          path: /remote-endpoint
+        - name: plugins
+          path: /plugins
+    name: tools
+commands:
+  - exec:
+      commandLine: pip3 install pipenv --force-reinstall && python3 -m pipenv install --skip-lock --system
+      component: tools
+      group:
+        kind: build
+      label: Install dependencies
+      workingDir: '${PROJECT_SOURCE}'
+    id: install-dependencies
+  - exec:
+      commandLine: python3 -m quanthub_pipeline --install_transformations_only --config ./config.yml --parameters skip
+      component: tools
+      group:
+        kind: build
+      label: Install transformations
+      workingDir: '${PROJECT_SOURCE}'
+    id: install-transformations
+  - exec:
+      commandLine: pip freeze
+      component: tools
+      group:
+        kind: debug
+      label: List dependencies
+      workingDir: '${PROJECT_SOURCE}'
+    id: list-dependencies
+  - exec:
+      commandLine: python3 -m quanthub_pipeline
+      component: tools
+      group:
+        kind: debug
+      label: Run transformation
+      workingDir: '${PROJECT_SOURCE}'
+    id: run
