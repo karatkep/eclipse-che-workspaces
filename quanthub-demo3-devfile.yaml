@@ -14,30 +14,10 @@ components:
       che-theia.eclipse.org/vscode-extensions:
         - 'https://github.com/microsoft/vscode-python/releases/download/2020.7.94776/ms-python-release.vsix'
     container:
-      args:
-        - sh
-        - '-c'
-        - '${PLUGIN_REMOTE_ENDPOINT_EXECUTABLE}'
-      env:
-        - name: PLUGIN_REMOTE_ENDPOINT_EXECUTABLE
-          value: /remote-endpoint/plugin-remote-endpoint
-        - name: THEIA_PLUGINS
-          value: 'local-dir:///plugins/sidecars/tools'
-        - name: CHE_DASHBOARD_URL
-          value: 'https://che.quanthubchedev.com'
-        - name: CHE_PLUGIN_REGISTRY_URL
-          value: 'https://che.quanthubchedev.com/plugin-registry/v3'
-        - name: CHE_PLUGIN_REGISTRY_INTERNAL_URL
-          value: 'http://plugin-registry.eclipse-che.svc:8080/v3'
       image: 'quay.io/devfile/universal-developer-image:ubi8-0e189d9'
       memoryLimit: 512Mi
       mountSources: true
       sourceMapping: /projects
-      volumeMounts:
-        - name: remote-endpoint
-          path: /remote-endpoint
-        - name: plugins
-          path: /plugins
     name: tools
 commands:
   - exec:
