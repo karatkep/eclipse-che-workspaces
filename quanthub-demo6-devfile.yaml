@@ -12,7 +12,7 @@ components:
   - attributes:
       app.kubernetes.io/name: tools
       che-theia.eclipse.org/vscode-extensions:
-        - 'https://github.com/microsoft/vscode-python/releases/download/2020.7.94776/ms-python-release.vsix'
+        - 'https://github.com/microsoft/vscode-python/releases/download/2022.2.1924087327/ms-python-release.vsix'
     container:
       args:
         - sh
